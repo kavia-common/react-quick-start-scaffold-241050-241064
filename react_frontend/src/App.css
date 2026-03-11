@@ -1,104 +1,423 @@
-/* CSS Variables for Theme Management */
+/* Theme variables (light/dark) */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
+  --bg-primary: #fff7e6;
+  --bg-secondary: #fff1cc;
+  --text-primary: #1b1b1b;
+  --text-secondary: #0b6cff;
+  --border-color: rgba(0, 0, 0, 0.18);
+  --button-bg: #0b6cff;
   --button-text: #ffffff;
+
+  /* Retro accents */
+  --retro-ink: #1b1b1b;
+  --retro-paper: #fff7e6;
+  --retro-paper-2: #fff1cc;
+  --retro-pink: #ff4fd8;
+  --retro-mint: #35ffb7;
+  --retro-purple: #7c4dff;
+  --retro-shadow: rgba(0, 0, 0, 0.35);
 }
 
 [data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+  --bg-primary: #0b1020;
+  --bg-secondary: #121a33;
+  --text-primary: #e7f1ff;
+  --text-secondary: #7df9ff;
+  --border-color: rgba(255, 255, 255, 0.16);
+  --button-bg: #2d6bff;
+  --button-text: #081022;
+
+  --retro-ink: #e7f1ff;
+  --retro-paper: #0b1020;
+  --retro-paper-2: #121a33;
+  --retro-pink: #ff4fd8;
+  --retro-mint: #35ffb7;
+  --retro-purple: #b48cff;
+  --retro-shadow: rgba(0, 0, 0, 0.55);
 }
 
 .App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background: radial-gradient(1200px 700px at 20% 0%, rgba(124, 77, 255, 0.18), transparent 55%),
+    radial-gradient(900px 600px at 90% 30%, rgba(53, 255, 183, 0.14), transparent 55%),
+    linear-gradient(180deg, var(--bg-primary), var(--bg-secondary));
   color: var(--text-primary);
-  transition: background-color 0.3s ease;
+}
+
+/* Retro layout */
+.retro {
+  text-align: left;
   position: relative;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+/* Subtle CRT scanlines */
+.retro::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 1px,
+    rgba(255, 255, 255, 0.0) 3px,
+    rgba(255, 255, 255, 0.0) 6px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+}
+
+.retro-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: color-mix(in srgb, var(--bg-secondary) 86%, transparent);
+  border-bottom: 2px solid var(--border-color);
+  backdrop-filter: blur(10px);
+}
+
+.retro-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.retro-brand__mark {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--border-color);
+  box-shadow: 4px 4px 0 var(--retro-shadow);
+  background: linear-gradient(135deg, var(--retro-purple), var(--retro-pink));
+  color: #0b1020;
+  font-weight: 800;
+}
+
+.retro-brand__text {
+  min-width: 0;
+}
+
+.retro-brand__title {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.retro-brand__subtitle {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  opacity: 0.8;
+  font-size: 12px;
 }
 
 .theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
   background-color: var(--button-bg);
   color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 800;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s ease;
+  box-shadow: 4px 4px 0 var(--retro-shadow);
 }
 
 .theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 var(--retro-shadow);
+  opacity: 0.95;
 }
 
 .theme-toggle:active {
-  transform: translateY(0);
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0 var(--retro-shadow);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.retro-shell {
+  padding: 28px 18px 60px;
+  display: grid;
+  place-items: start center;
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+.retro-card {
+  width: min(860px, 100%);
+  background: color-mix(in srgb, var(--retro-paper) 78%, transparent);
+  border: 2px solid var(--border-color);
+  box-shadow: 10px 10px 0 var(--retro-shadow);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.retro-card__header {
+  padding: 18px 18px 12px;
+  border-bottom: 2px dashed var(--border-color);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.retro-h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.retro-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.retro-pill {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  border: 2px solid var(--border-color);
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg-secondary) 55%, transparent);
+}
+
+.retro-form {
+  padding: 16px 18px 14px;
+}
+
+.retro-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.retro-form__row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.retro-input {
+  flex: 1;
+  min-width: 0;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px 12px;
+  font-size: 14px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  outline: none;
+  box-shadow: inset 0 0 0 2px transparent, 4px 4px 0 rgba(0, 0, 0, 0.12);
+}
+
+.retro-input:focus {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--retro-mint) 70%, transparent), 6px 6px 0 rgba(0, 0, 0, 0.14);
+}
+
+.retro-btn {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg-secondary) 70%, transparent);
+  color: var(--text-primary);
+  padding: 10px 12px;
+  font-weight: 900;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--retro-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s ease;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.retro-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 var(--retro-shadow);
+}
+
+.retro-btn:active:not(:disabled) {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0 var(--retro-shadow);
+}
+
+.retro-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.retro-btn--primary {
+  background: linear-gradient(135deg, var(--retro-purple), var(--retro-pink));
+  color: #0b1020;
+}
+
+.retro-btn--danger {
+  background: linear-gradient(135deg, #ff6b6b, #ffa94d);
+  color: #1b1b1b;
+}
+
+.retro-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.retro-filter,
+.retro-bulk {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.retro-chip {
+  border: 2px solid var(--border-color);
+  border-radius: 999px;
+  padding: 8px 10px;
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 900;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.retro-chip.is-active {
+  background: color-mix(in srgb, var(--retro-mint) 35%, var(--bg-secondary));
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.retro-list {
+  padding: 0 18px 16px;
+}
+
+.retro-empty {
+  padding: 14px 12px;
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg-secondary) 55%, transparent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.retro-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg-primary) 72%, transparent);
+  margin-top: 10px;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.12);
+}
+
+.retro-item__main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.retro-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--retro-mint);
+}
+
+.retro-item__title {
+  font-size: 14px;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.retro-item__title.is-done {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.retro-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.retro-time {
+  font-size: 12px;
+  opacity: 0.8;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.retro-iconbtn {
+  border: 2px solid var(--border-color);
+  background: transparent;
+  color: var(--text-primary);
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 900;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.18);
+}
+
+.retro-iconbtn:hover {
+  background: color-mix(in srgb, var(--retro-pink) 18%, transparent);
+}
+
+.retro-footer {
+  padding: 14px 18px 18px;
+  border-top: 2px dashed var(--border-color);
+  background: color-mix(in srgb, var(--bg-secondary) 55%, transparent);
+}
+
+.retro-footer__hint {
+  font-size: 12px;
+  opacity: 0.9;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  border: 2px solid var(--border-color);
+  border-bottom-width: 3px;
+  background: color-mix(in srgb, var(--bg-primary) 70%, transparent);
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin: 0 2px;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .retro-topbar {
+    position: relative;
+  }
+  .retro-form__row {
+    flex-direction: column;
+  }
+  .retro-btn,
+  .retro-btn--primary {
+    width: 100%;
+  }
+  .retro-item__title {
+    max-width: 44vw;
   }
 }
