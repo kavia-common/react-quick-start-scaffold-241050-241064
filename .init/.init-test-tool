@@ -1,0 +1,4 @@
+{
+    "command": "npm run test",
+    "working_directory": "/home/kavia/workspace/code-generation/react-quick-start-scaffold-241050-241064/react_frontend"
+}
